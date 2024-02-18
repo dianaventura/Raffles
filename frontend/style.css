@@ -5,20 +5,3 @@ body{
 
 }
 
-form{
-    margin-bottom:20px;
-}
-
-input,button{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    display: block;
-    padding: 10px;
-}
-
-button{
-    cursor:pointer;
-    background-color: antiquewhite;
-    border:none;
-    border-radius: 5px;
-}
