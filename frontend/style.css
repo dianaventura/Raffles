@@ -3,5 +3,45 @@ body{
 
     margin: 20px;
 
+    background-color: #f4f4f4;
+
 }
 
+
+#raffle-info, #entry-form {
+    background-color: white;
+
+    padding: 20px;
+    margin-bottom: 20px;
+
+    border-radius: 5px;
+    
+}
+
+#entry-form form {
+    margin-top: 10px;
+}
+
+label {
+    margin-top: 10px;
+}
+
+input {
+    margin: 5px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    background-color: orange;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e4d48f;
+}
