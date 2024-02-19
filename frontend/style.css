@@ -8,7 +8,7 @@ body{
 }
 
 
-#raffle-info, #entry-form{
+#raffle-info, #entry-form, #login-form, #signup-form{
 
 
     background-color: white;
@@ -20,7 +20,7 @@ body{
 }
 
 #raffle-image{
-    
+
     padding: 20px;
     margin-bottom: 20px;
 
