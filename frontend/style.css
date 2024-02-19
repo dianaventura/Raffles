@@ -19,6 +19,14 @@ body{
 
 }
 
+#raffle-image{
+    
+    padding: 20px;
+    margin-bottom: 20px;
+
+    border-radius: 5px;
+}
+
 #entry-form form{
 
     margin-top: 10px;
