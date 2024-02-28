@@ -4,8 +4,9 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const { MongoClient } = require("mongodb");
-const uri = "mongodb://127.0.0.1:27017";
-const port = 8080;
+require('dotenv').config();
+const uri = process.env.db_uri;
+const port = process.env.port;
 
 app.use(express.json());
 //serve static files like css etc
@@ -71,7 +72,7 @@ app.use((req, res, next) => {
         await client.close();
     }
   });
-  
+
 // Start the server
   app.listen(port, () => {
     console.log(`Server running on port ${port}`);
