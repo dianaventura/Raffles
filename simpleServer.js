@@ -5,6 +5,7 @@ const express = require('express');
 const app = express();
 const { MongoClient } = require("mongodb");
 require('dotenv').config();
+
 const uri = process.env.db_uri;
 const port = process.env.port;
 
@@ -49,7 +50,8 @@ app.use((req, res, next) => {
   
   //adapted from lab 4 
   
-  app.post('/createUser', async (req, res) => {
+  app.post('/signup', async (req, res) => {
+    console.log('it is calling')
     // Create a new MongoClient
     const client = new MongoClient(uri);
     const { username, email, password } = req.body; // extract user info from request body
