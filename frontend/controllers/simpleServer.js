@@ -1,13 +1,19 @@
 
+//main server file that initialises the app 
+
 const path = require('path');
 
 const express = require('express');
 const app = express();
 const { MongoClient } = require("mongodb");
+const mongoose = require('mongoose');
+
+//mongodb connection uri 
+const uri = process.env.DB_URI;
 require('dotenv').config();
 
-const uri = process.env.db_uri;
-const port = process.env.port;
+
+const port = process.env.PORT;
 
 app.use(express.json());
 //serve static files like css etc
