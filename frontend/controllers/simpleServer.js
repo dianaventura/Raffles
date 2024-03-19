@@ -8,13 +8,13 @@ const app = express();
 const { MongoClient } = require("mongodb");
 const mongoose = require('mongoose');
 
-//mongodb connection uri 
-const uri = process.env.DB_URI;
+
 require('dotenv').config();
 
 
 const port = process.env.PORT;
-
+//mongodb connection uri 
+const uri = process.env.DB_URI;
 app.use(express.json());
 //serve static files like css etc
 app.use(express.static(path.join(__dirname,'frontend')));
