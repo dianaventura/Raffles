@@ -18,7 +18,10 @@ const port = process.env.PORT || 8080;
 const uri = process.env.DB_URI;
 app.use(express.json());
 //serve static files like css etc
-app.use(express.static(path.join(__dirname,'frontend')));
+app.use(express.static(path.join(__dirname,'..','view')));
+// serve images
+app.use('/images', express.static(path.join(__dirname,'..','images')));
+
 
 
 
