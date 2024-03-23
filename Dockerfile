@@ -8,7 +8,7 @@ COPY package*.json ./
 RUN npm install --only=production
 
 # copy frontend to container
-COPY .frontend/controllers/ ./frontend/controllers/
+COPY ./frontend ./frontend
 
 EXPOSE 8080
 
