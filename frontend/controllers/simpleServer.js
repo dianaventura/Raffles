@@ -9,7 +9,7 @@ const { MongoClient } = require("mongodb");
 const mongoose = require('mongoose');
 
 
-require('dotenv').config({ path:'../.env'});
+require('dotenv').config({ path:'../../.env'});
 
 
 const port = process.env.PORT || 8080;
