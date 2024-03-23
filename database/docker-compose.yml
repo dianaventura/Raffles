@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  app:
+    image: node:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_URI=${DB_URI}
+      - PORT=${PORT}
+    depends_on:
+      - db
+  db:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_DATABASE=raffleDB
