@@ -10,7 +10,12 @@ RUN npm install --only=production
 # copy frontend to container
 COPY ./frontend ./frontend
 
+COPY ./models ./models
+COPY ./routes ./routes
+COPY ./controllers ./controllers
+COPY ./simpleServer.js ./
+
 EXPOSE 8080
 
 # Adjust the CMD to run your server file from its location within the container
-CMD [ "node", "./frontend/controllers/simpleServer.js" ]
+CMD [ "node", ".simpleServer.js" ]
