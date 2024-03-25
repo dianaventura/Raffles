@@ -18,4 +18,4 @@ COPY ./simpleServer.js ./
 EXPOSE 8080
 
 # Adjust the CMD to run your server file from its location within the container
-CMD [ "node", ".simpleServer.js" ]
+CMD [ "node", "simpleServer.js" ]
