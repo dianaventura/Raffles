@@ -1,5 +1,5 @@
 //handling html makeing fetch
-
+document.addEventListener('DOMContentLoaded', (event) => {
 document.getElementById('raffle-entry').addEventListener('submit', function(event) {
  
     event.preventDefault();
@@ -43,5 +43,7 @@ document.getElementById('raffle-entry').addEventListener('submit', function(even
   });
 
 }
+
+});
 
 });
