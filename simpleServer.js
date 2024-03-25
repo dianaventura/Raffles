@@ -25,10 +25,17 @@ app.use(express.static(path.join(__dirname, 'frontend', 'view')));
 // serve images
 app.use('/images',express.static(path.join(__dirname, 'frontend', 'images')));
 
-//api route
-app.use(guestRoutes);
+mongoose.connect(uri, {
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.error(err));
 
-// Start the server
+//api route for guest entry 
+
+
+app.use( guestRoutes);
+
+//Start the server
   app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
