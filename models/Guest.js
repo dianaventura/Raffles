@@ -4,6 +4,6 @@ const guestEntry = new mongoose.Schema({
     email: String,
 });
 
-const Guest = mongoose.model('Guest', GuestEntry);
+const Guest = mongoose.model('Guest', guestEntry);
 
 module.exports = Guest;

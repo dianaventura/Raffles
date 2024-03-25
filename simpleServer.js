@@ -17,68 +17,16 @@ const port = process.env.PORT || 8080;
 //mongodb connection uri 
 const uri = process.env.DB_URI;
 
+const User = require('./models/User');
+const Guest = require('./models/Guest')
+
 app.use(express.json());
 //serve static files like css etc
-app.use(express.static(path.join(__dirname,'..','view')));
+app.use(express.static(path.join(__dirname, 'frontend', 'view')));
+
 // serve images
-app.use('/images', express.static(path.join(__dirname,'..','images')));
+app.use('/images',express.static(path.join(__dirname, 'frontend', 'images')));
 
-
-
-
-
-  //adapted from lab 4 
-  app.post('/api/databaseAction', async (req, res) => {
-    // Database stuff
-      // Create a new MongoClient
-      const client = new MongoClient(uri);
-      async function run() {
-      try {
-          // Connect the client to the server (optional starting in v4.7)
-          await client.connect();
-          // Establish and verify connection
-          await client.db("admin").command({ ping: 1 });
-          console.log("Connected successfully to server");
-          console.log('Start the database stuff');
-          //Write databse Insert/Update/Query code here..
-   console.log('End the database stuff');
-  
-      } finally {
-          // Ensures that the client will close when you finish/error
-          await client.close();
-      }
-      }
-      run().catch(console.dir);
-    });
-  
-
-  
-  //adapted from lab 4 
-  
-  app.post('/signup', async (req, res) => {
-    console.log('it is calling')
-    // Create a new MongoClient
-    const client = new MongoClient(uri);
-    const { username, email, password } = req.body; // extract user info from request body
-  
-    try {
-        await client.connect();
-        var dbo = client.db("mydb");
-        var myobj = { username, email, password }; 
-        await dbo.collection("users").insertOne(myobj,function(err,res){
-  
-        if(err){
-          console.log(err);
-          throw err;
-        }
-        console.log('USER CREATED');
-      });
-      console.log('End the database stuff')
-   
-    } finally {
-        await client.close();
-    }
-  });
 
 // Start the server
   app.listen(port, () => {
