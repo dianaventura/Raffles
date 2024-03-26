@@ -7,8 +7,9 @@ const express = require('express');
 const app = express();
 const { MongoClient } = require("mongodb");
 const mongoose = require('mongoose');
+//routes
 const guestRoutes = require('./routes/guestRoutes');
-
+const raffleRoutes = require('./routes/raffleRoutes');
 
 require('dotenv').config();
 
@@ -30,10 +31,11 @@ mongoose.connect(uri, {
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error(err));
 
-//api route for guest entry 
 
 
-app.use( guestRoutes);
+
+app.use(guestRoutes);
+app.use(raffleRoutes);
 
 //Start the server
   app.listen(port, () => {
