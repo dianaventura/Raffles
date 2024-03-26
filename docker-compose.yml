@@ -2,6 +2,8 @@ version: '3.8'
 services:
   db:
     image: mongo:latest
+    volumes:
+    - mongo_data:data/db
     environment:
       - MONGO_INITDB_DATABASE=raffleDB
   app:
@@ -13,3 +15,7 @@ services:
       - PORT=${PORT}
     depends_on:
       - db
+
+volumes: 
+  mongo_data:
+    driver: local
