@@ -5,7 +5,6 @@ const uri = process.env.DB_URI;
 const Raffle = require('../models/Raffle')
 
 exports.getRaffles = async(req,res) => {
-    const{name, email} = req.body;
     try{
         
         const raffles = await Raffle.find(); //fetch all raffles from backend
