@@ -49,3 +49,32 @@ document.getElementById('signup').addEventListener('submit', function(event) {
 
 });
 
+
+
+  
+  //adapted from lab 4 
+  
+  app.post('/signup', async (req, res) => {
+    console.log('it is calling')
+    // Create a new MongoClient
+    const client = new MongoClient(uri);
+    const { username, email, password } = req.body; // extract user info from request body
+  
+    try {
+        await client.connect();
+        var dbo = client.db("mydb");
+        var myobj = { username, email, password }; 
+        await dbo.collection("users").insertOne(myobj,function(err,res){
+  
+        if(err){
+          console.log(err);
+          throw err;
+        }
+        console.log('USER CREATED');
+      });
+      console.log('End the database stuff')
+   
+    } finally {
+        await client.close();
+    }
+  });

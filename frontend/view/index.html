@@ -9,44 +9,54 @@
 
 </head>
 
-<div id="nav">
 
-    <a href="index.html" id ="home">Home</a>
-    <a href="signup.html">Sign Up</a>
-    <a href="login.html">Log In</a>
-    
-
-</div>
 <body>
 
-<h1 id="home-text">Welcome to Raffle</h1>
-<div id="raffle-image">
-    <img src="/images/raffle_index.jpg" alt="Raffle Home Image">
-</div>
-<div id="raffle-info">
-<h2>Raffle Prize: Win a £100 gift card</h2>
-<p>Draw Date: 5th of Soon 2024 </p>
-</div>
+    <div id="nav">
 
-<div id="entry-info">
-    <h3>Enter the Raffle!!!</h3>
+        <a href="index.html" id ="home">Home</a>
+        <a href="signup.html">Sign Up</a>
+        <a href="login.html">Log In</a>
+        
+    
+    </div>
 
-    <form id="raffle-entry">
 
-    <label for="guest-name">Name:</label>
-    <input type="text" id="guest-name" ><br>
+<main>
 
-    <label for="guest-email">Email:</label>
-    <input type="email" id="guest-email"><br>
+    <h1 id="home-text">Welcome to Raffle</h1>
 
-    <button type="submit">Submit </button>
+    <section id="raffle-container">
+        <!-- placeholder raffle -->
+        <div class="raffle-card" id="raffle-example">
+    <div id="raffle-image">
+        <img src="images/raffle_index.jpg" alt="Raffle Home Image">
+    </div>
+    <div id="raffle-info">
+    <h2>Raffle Prize: Win a £100 gift card</h2>
+    <p>Draw Date: 5th of Soon 2024 </p>
+    </div>
+
+    <div id="entry-info">
+        <h3>Enter the Raffle!!!</h3>
+
+        <form id="raffle-entry">
+
+        <label for="guest-name">Name:</label>
+        <input type="text" id="guest-name" ><br>
+
+        <label for="guest-email">Email:</label>
+        <input type="email" id="guest-email"><br>
+
+        <button type="submit">Submit </button>
 
     
-    </form>
+        </form>
 
-
-</div>
-
+    </div>
+    </div>
+    </section>
+</main>
 <script src="/js/index.js"></script>
 
 </body>       
