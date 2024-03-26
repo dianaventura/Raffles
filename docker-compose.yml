@@ -3,7 +3,7 @@ services:
   db:
     image: mongo:latest
     volumes:
-    - mongo_data:data/db
+    - mongo_data:/data/db
     environment:
       - MONGO_INITDB_DATABASE=raffleDB
   app:
