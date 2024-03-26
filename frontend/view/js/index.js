@@ -4,11 +4,13 @@ function fetchRaffles(){
     fetch('/get-raffles')
     
         .then(response => response.json())
+        
         .then(raffles => displayRaffles(raffles))
         .catch(error => console.error('Error fetching raffles', error));
 }
 
 function displayRaffles(raffles) {
+    console.log(raffles); // log the raffles array
     //get raffle container
 
     const container = document.getElementById('raffle-container');
