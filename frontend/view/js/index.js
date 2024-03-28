@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             console.log(name);
             console.log(email);
             console.log(raffleId)
+            
             var guestData = {
                 name: name,
                 email: email,

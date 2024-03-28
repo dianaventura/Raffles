@@ -8,6 +8,7 @@ const app = express();
 const { MongoClient } = require("mongodb");
 const mongoose = require('mongoose');
 const cors = require('cors');
+const session = require('express-session');
 //routes
 const guestRoutes = require('./routes/guestRoutes');
 const raffleRoutes = require('./routes/raffleRoutes');
@@ -20,8 +21,18 @@ const port = process.env.PORT || 8080;
 
 //mongodb connection uri 
 const uri = process.env.DB_URI;
+
+const secret = process.env.SESSION_SECRET;
+
 app.use(cors());
 app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
+app.use(session({
+
+  secret: secret,
+
+}));
 //serve static files like css etc
 app.use(express.static(path.join(__dirname, 'frontend', 'view')));
 

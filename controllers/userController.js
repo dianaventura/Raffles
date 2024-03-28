@@ -27,33 +27,5 @@ exports.signup = async (req, res) => {
 };
 
 
-//for log in
-exports.login = async (req, res) => {
 
-    const { username, password } = req.body;
-  
-    User.findOne({ username })
-  
-      .then(user => {
-  
-        if (!user) {
-  
-          return res.status(400).send('oop invalid credentials');
-        }
-        //if password entered matches password in db
-  
-        return bcrypt.compare(password, user.password)
-  
-          .then(isMatch => {
-  
-            if (!isMatch) {
-              return res.status(400).send('oop invalid credentials');
-            }
-            //setting user ID in session to log in :))
-            req.session.userId = user._id; 
-            return res.send('Yaaa Logged in successfully!!!!');
-          });
-      })
-      .catch(() => res.status(500).send('server error'));
-  };
   
