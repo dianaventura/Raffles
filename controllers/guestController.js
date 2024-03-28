@@ -1,13 +1,12 @@
 //guest controller
 
-const {MongoClient} = require("mongodb");
-const uri = process.env.DB_URI;
-const Guest = require('../models/Guest')
+const Guest = require('../models/Guest');
 
 exports.enterAsGuest = async(req,res) => {
-    const{name, email} = req.body;
+    const{name, email, raffleId} = req.body;
+    console.log(req.body);
     try{
-        const guest = new Guest({name,email});
+        const guest = new Guest({name,email,raffleId});
         const guestSaved = await guest.save();
         res.status(201).json(guestSaved)
     }catch(error){

@@ -9,6 +9,8 @@ function fetchRaffles(){
         .catch(error => console.error('Error fetching raffles', error));
 }
 
+
+
 function displayRaffles(raffles) {
     console.log(raffles); // log the raffles array
     //get raffle container
@@ -25,114 +27,71 @@ function displayRaffles(raffles) {
                 <h3>${raffle.title}</h3>
                 <p>Prize: ${raffle.prize}</p>
                 <p>Draw Date: ${raffle.drawDate}</p>
-                <button raffle-id="${raffle._id}" class="enter-raffle-button">Enter This Raffle</button>
+                <form class="raffle-entry-form">
+                
+                <input type="text" name="guest-name" required placeholder ="Enter your name">
+                <input type="email" name="guest-email" required placeholder="Enter your email">
+                <input type="hidden" name="raffleId" value="${raffle._id}">
+
+                <button type="submit">Enter This Raffle!!</button>
+            </form>
             </div>
         `;
         container.innerHTML += raffleHTML;
     });
 
-    document.querySelectorAll('.enter-raffle-button').forEach(button => {
-
-        button.addEventListener('click', function(event) {
-
-            const raffleId = event.target.getAttribute('raffle-id');
-            enterRaffleAsGuest(raffleId);
-        });
-    });
-}
-
-
-//handling html makeing fetch
-
-
-
-document.getElementById('raffle-entry').addEventListener('submit', function(event) {
- 
-    event.preventDefault();
-
-    var name = document.getElementById('guest-name').value;
-    var email = document.getElementById('guest-email').value;
- 
- 
-
-
-    //using input to 
-
-    if(email.length == 0|| name.length == 0){
-        alert('Please enter an email, password and name to sign up !');
-        
-    }else{
-        console.log('Adding user info ')
-      var guestData = {
-        name: name,
-        email: email,
-        raffleId: raffleId
-      
-    };
-
-    //post request to server side 
-
-    fetch('/enter-as-guest', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(guestData)
-  })
-  .then(response => response.json() )
-  .then(data => {
-    console.log('Success:', data);
-    alert('You have been entered into the raffle!')
-
-  })
-  .catch((error)=> {
-    console.error('Error', error);
-    alert('An error occured. Please try again!!! ')
-  });
 
 }
 
-});
-
-// this is called from rafflecards
-function enterRaffleAsGuest(raffleId) {
-
-    const name = prompt("Please enter your name:");
-    const email = prompt("Please enter your email:");
-
-    if (!email || !name) {
-        alert('Please enter an email and name to sign up!');
-        return;
-    }
-
-    const guestData = {
-        name: name,
-        email: email,
-        raffleId: raffleId 
-    };
-
-    fetch('/enter-as-guest', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(guestData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        alert('You have been entered into the raffle!');
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred. Please try again!');
-    });
-}
 
 
 document.addEventListener('DOMContentLoaded', (event) => {
 
     fetchRaffles(); //fetches and displayes raffles 
+
+    document.getElementById('raffle-container').addEventListener('submit', function(event) {
+
+        if (event.target.matches('.raffle-entry-form')) {
+
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const name = formData.get('guest-name');
+            const email = formData.get('guest-email');
+            const raffleId = formData.get('raffleId');
+
+            console.log(name);
+            console.log(email);
+            console.log(raffleId)
+            var guestData = {
+                name: name,
+                email: email,
+                raffleId: raffleId
+            };
+
+            console.log(guestData)
+        
+            // post request to server side 
+            fetch('/enter-as-guest', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(guestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+
+                alert('OMGG !!! gURL. You have been entered into the raffle!');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+
+                alert('girl im so sorry an error occurred. please try again!');
+            });
+        }
+    });
     
     });
     
