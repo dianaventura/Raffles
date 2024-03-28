@@ -25,10 +25,19 @@ function displayRaffles(raffles) {
                 <h3>${raffle.title}</h3>
                 <p>Prize: ${raffle.prize}</p>
                 <p>Draw Date: ${raffle.drawDate}</p>
-                <button onclick="enterRaffleAsGuest('${raffle.id}')">Enter This Raffle</button>
+                <button raffle-id="${raffle._id}" class="enter-raffle-button">Enter This Raffle</button>
             </div>
         `;
         container.innerHTML += raffleHTML;
+    });
+
+    document.querySelectorAll('.enter-raffle-button').forEach(button => {
+
+        button.addEventListener('click', function(event) {
+
+            const raffleId = event.target.getAttribute('raffle-id');
+            enterRaffleAsGuest(raffleId);
+        });
     });
 }
 
@@ -44,6 +53,7 @@ document.getElementById('raffle-entry').addEventListener('submit', function(even
     var name = document.getElementById('guest-name').value;
     var email = document.getElementById('guest-email').value;
  
+ 
 
 
     //using input to 
@@ -56,6 +66,7 @@ document.getElementById('raffle-entry').addEventListener('submit', function(even
       var guestData = {
         name: name,
         email: email,
+        raffleId: raffleId
       
     };
 

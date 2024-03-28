@@ -95,6 +95,7 @@ button:hover{
     text-align: center;
 }
 
+/*css for raffle cards */
 .raffle-card {
 
     border: 1px solid #ddd;
@@ -110,9 +111,9 @@ button:hover{
 
 .raffle-image {
 
-    max-width: 100%; 
-
-    height: auto;
+    width: 100%; 
+    height:500px;
+    object-fit: cover;
     border-radius: 8px;
     margin-bottom: 10px;
 }
@@ -121,7 +122,7 @@ button:hover{
 
     display: flex;
     flex-wrap: wrap;
-    
+
     gap: 20px;
     justify-content: center;
 }
