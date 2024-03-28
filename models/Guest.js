@@ -9,7 +9,7 @@ const guestEntry = new mongoose.Schema({
     token: {type: String, unique: true}
 });
 
-const Guest = mongoose.model('Guest', guestEntry);
+
 
 //hook to generate token when a guest is entered.
 guestEntry.pre('save', function(next) {
@@ -22,5 +22,7 @@ guestEntry.pre('save', function(next) {
 
     next();
 });
+
+const Guest = mongoose.model('Guest', guestEntry);
 
 module.exports = Guest;
