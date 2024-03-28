@@ -19,10 +19,10 @@
 
     <h1>Sign Up for the Raffle!</h1>
 
-    <div id="signup-form">
+    <div id="signup-container">
 
         <h2>Create Account</h2>
-        <form id="signup">
+        <form id="signup-form" action="/register" method="post">
       
         <label for="signup-name">Name:</label>
         <input type="text" id="signup-name" name="name"><br>
@@ -30,7 +30,7 @@
         <label for="signup-email">Email:</label>
         <input type="email" id="signup-email" name="email" ><br>
 
-        <label for="signup-email">Password:</label>
+        <label for="signup-password">Password:</label>
         <input type="password" id="signup-password" name="password"><br>
 
         <button type="submit">Create Account!!!</button>
