@@ -15,12 +15,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
       
       const formData = new FormData(signupForm);
-      const name = formData.get('signup-name');
+      const username = formData.get('signup-name');
       const email = formData.get('signup-email');
       const password = formData.get('signup-password');
 
-      
-      const dataToSend = JSON.stringify({ name, email, password });
+
+      var userData = {
+        username: username,
+        email: email,
+        password: password
+      };
 
      //post request to server side
 
@@ -29,10 +33,9 @@ document.addEventListener('DOMContentLoaded', function () {
           headers: {
               'Content-Type': 'application/json',
           },
-          body: dataToSend,
+          body: JSON.stringify(userData)
       })
       .then(response => response.json())
-
       .then(data => {
           console.log('Success:', data);
           alert('OMGG !!! gURL. You have signed up tysm');

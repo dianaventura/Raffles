@@ -23,16 +23,23 @@ const port = process.env.PORT || 8080;
 const uri = process.env.DB_URI;
 
 const secret = process.env.SESSION_SECRET;
+console.log("Session secret:", secret);
 
 app.use(cors());
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
+
 app.use(session({
 
   secret: secret,
+  resave: false,
+  saveUninitialized: false,
 
 }));
+
+
+
 //serve static files like css etc
 app.use(express.static(path.join(__dirname, 'frontend', 'view')));
 
