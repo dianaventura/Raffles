@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 
 
 //controller for registering usrs
+
 exports.signup = async (req, res) => {
 
   const { username, password, email } = req.body;
