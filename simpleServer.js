@@ -7,9 +7,11 @@ const express = require('express');
 const app = express();
 const { MongoClient } = require("mongodb");
 const mongoose = require('mongoose');
+const cors = require('cors');
 //routes
 const guestRoutes = require('./routes/guestRoutes');
 const raffleRoutes = require('./routes/raffleRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 require('dotenv').config();
 
@@ -18,13 +20,15 @@ const port = process.env.PORT || 8080;
 
 //mongodb connection uri 
 const uri = process.env.DB_URI;
-
+app.use(cors());
 app.use(express.json());
 //serve static files like css etc
 app.use(express.static(path.join(__dirname, 'frontend', 'view')));
 
 // serve images
 app.use('/images',express.static(path.join(__dirname, 'frontend', 'images')));
+
+
 
 mongoose.connect(uri, {
 })
@@ -36,6 +40,7 @@ mongoose.connect(uri, {
 
 app.use(guestRoutes);
 app.use(raffleRoutes);
+app.use(userRoutes);
 
 //Start the server
   app.listen(port, () => {
