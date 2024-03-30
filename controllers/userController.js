@@ -1,6 +1,7 @@
 //use controller
 
 const User = require('../models/User');
+const Entry = require('../models/Entry')
 
 const bcrypt = require('bcrypt');
 
@@ -32,6 +33,43 @@ exports.signup = async (req, res) => {
   }
 };
 
+//controller for sessuin info 
+
+exports.getSession = async (req, res) => {
+
+  try {
+    if (req.session.userId) {
+
+      const user = await User.findById(req.session.userId);
+
+      if (!user) {
+        return res.status(404).json({ message: "ooop user not found." });
+
+      }
+      res.json({ isLoggedIn: true, username: user.username });
+
+    } else {
+
+      res.json({ isLoggedIn: false });
+    }
+  } catch (error) {
+
+    console.error(error);
+    res.status(500).json({ error: "internal server error", isLoggedIn: false });
+  }
+};
+
+exports.enterAsUser = async(req,res) => {
+  const{raffleId} = req.body;
+  console.log(req.body);
+  try{
+      const entry = new Entry({raffleId});
+      const entrySaved = await entry.save();
+      res.status(201).json(entrySaved)
+  }catch(error){
+      res.status(500).json({error: 'Error with Guest save'})
+  }
+}
 
 
   
