@@ -15,17 +15,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
       
       const formData = new FormData(signupForm);
-      const username = formData.get('signup-name');
-      const email = formData.get('signup-email');
-      const password = formData.get('signup-password');
+      const username = formData.get('username');
+      const email = formData.get('email');
+      const password = formData.get('password');
 
 
       var userData = {
+
         username: username,
         email: email,
         password: password
+
       };
 
+      console.log(userData);
      //post request to server side
 
       fetch('/signup', {

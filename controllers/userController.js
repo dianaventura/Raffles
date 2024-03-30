@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 exports.signup = async (req, res) => {
   try {
     const { username, password, email } = req.body;
-
+    console.log(req.body);
    
     const existingUser = await User.findOne({ username });
      //  if user already exists
@@ -22,7 +22,6 @@ exports.signup = async (req, res) => {
     const userSaved = await user.save();
       res.status(201).json(userSaved)
 
-    res.status(201).send('GIRLIE YAS user created successfully');
   } catch (error) {
     console.error(error);
     res.status(500).send('Oops girlie server error: ' + error.message);
