@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 exports.signup = async (req, res) => {
   try {
     const { username, password, email } = req.body;
-    console.log(req.body);
+  
    
     const existingUser = await User.findOne({ username });
      //  if user already exists
@@ -21,6 +21,10 @@ exports.signup = async (req, res) => {
     const user = new User({ username, password, email });
     const userSaved = await user.save();
       res.status(201).json(userSaved)
+
+    // log in user by starting session
+
+    req.session.userId = userSaved._id;
 
   } catch (error) {
     console.error(error);

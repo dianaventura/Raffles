@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       };
 
-      console.log(userData);
+  
      //post request to server side
 
       fetch('/signup', {
@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(data => {
           console.log('Success:', data);
           alert('OMGG !!! gURL. You have signed up tysm');
+          window.location.href = 'index.html';
       })
       .catch((error) => {
           console.error('Error:', error);
