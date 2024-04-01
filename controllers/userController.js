@@ -44,6 +44,8 @@ exports.signup = async (req, res) => {
   }
 };
 
+//loggin in
+
 exports.login = async(req,res) =>{
 
   try{
@@ -103,6 +105,25 @@ exports.session = async (req, res) => {
   }
 };
 
+
+//for logging out 
+
+exports.logout = async(req,res) =>{
+
+  req.session.loggedIn = false;
+
+ //end session
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      return res.status(500).json({ message: 'Failed to logout' });
+    }
+
+    res.redirect('/');
+  });
+
+    
+  };
 
 
 /*

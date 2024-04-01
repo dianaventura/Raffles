@@ -143,10 +143,33 @@ document.addEventListener('DOMContentLoaded', (event) => {
             .catch((error) => {
                 console.error('Error:', error);
 
-                alert('girl im so sorry an error occurred. please try again!');
+                alert('girl. im so sorry an error occurred. please try again!');
             });
         }
     });
-    
+
+    document.getElementById('logout-btn').addEventListener('click', function (event) {
+        
+        event.preventDefault(); 
+      
+        // Send request to log out 
+        fetch('/logout', {
+
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(response => {
+
+            if (response.ok) {
+
+                window.location.href = 'index.html'; 
+            } else {
+                console.error('Error logging out:', response.status); 
+            }
+        })
+        .catch(error => console.error('Error logging out:', error)); // Log fetch error
     });
+
+    
+});
     

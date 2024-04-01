@@ -11,6 +11,8 @@ router.get('/session', userController.session);
 
 router.post('/login', userController.login);
 
+
+router.post('/logout', userController.logout);
 // Route for user entry
 //router.post('/enter-as-guest', userController.enterAsUser);
 
