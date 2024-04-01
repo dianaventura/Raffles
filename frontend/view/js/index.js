@@ -11,7 +11,11 @@ function fetchRaffles(){
                // console.log('Fetching raffles...'); // Log before fetch
             .then(response => response.json())
             
-            .then(raffles => displayRaffles(raffles,session.loggedIn))
+            .then(raffles => {
+
+                displayRaffles(raffles,session);
+                updateHome(session);
+            })
             .catch(error => console.error('Error fetching raffles', error));
     
         })
@@ -19,11 +23,37 @@ function fetchRaffles(){
         .catch(error => console.error('Error checking session', error));
 }
 
+function updateHome(session) {
+
+    const loginButt = document.getElementById('login-btn');
+    const signupButt = document.getElementById('signup-btn');
+    const helloUser = document.getElementById('hello-user');
+  
+    if (session.loggedIn) {
+
+        // hiding login and signup buttons
+
+        loginButt.style.display = 'none';
+        signupButt.style.display = 'none';
+
+        // show the username hello 
+
+        helloUser.style.display = 'block';
+        document.getElementById('user-display').textContent = `Welcome, ${session.username}!`;
+
+    } else {
+        
+        // hide hello-user section
+       helloUser.style.display = 'none';
+    }
+}
 
 
-function displayRaffles(raffles, loggedIn) {
+
+
+function displayRaffles(raffles, session) {
     //console.log(raffles); // log the raffles array
-    console.log('User is logged in:', loggedIn);
+    console.log('User is logged in:', session.loggedIn);
 
     //get raffle container
 
@@ -33,7 +63,7 @@ function displayRaffles(raffles, loggedIn) {
 
     raffles.forEach(raffle => {
             //if logged in show only button else show guest form :) 
-        const formOrButton = loggedIn ?
+        const formOrButton = session.loggedIn ?
             `<button onclick="enterRaffleAsUser('${raffle._id}')">Enter This Raffle</button>` :
             `
             <form class="raffle-entry-form">
@@ -63,6 +93,7 @@ function displayRaffles(raffles, loggedIn) {
 
 
 }
+
 
 
 

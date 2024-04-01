@@ -22,7 +22,7 @@ exports.signup = async (req, res) => {
     const user = new User({ username, password, email });
 
     const userSaved = await user.save();
-     // res.status(201).json(userSaved)
+     
 
     // log in user by starting session
 
@@ -44,35 +44,65 @@ exports.signup = async (req, res) => {
   }
 };
 
+exports.login = async(req,res) =>{
+
+  try{
+
+    const {username, password} = req.body;
+
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(400).send('user not found ');
+    }
+
+    //check if password is right
+
+    if(user.password !== password){
+      return res.status(400).json({ message: 'Incorrect password' });
+    }
+
+    //if user exists and password is crrect log in and start session
+
+    req.session.userId = user._id;
+    req.session.loggedIn = true;
+    req.session.save();
+
+    res.json({ message: 'LOGIN was a SUCCES. ', user: { id: user._id, email: user.email } });
+
+  } catch (error) {
+
+    console.error('error logging in:', error);
+    res.status(500).json({ message: 'internal server error' });
+  }
+    
+  };
 
 
 //controller for sessuin info 
 
 exports.session = async (req, res) => {
 
-  try {
-    if (req.session.loggedIn) {
+  
+  if (req.session.userId) {
 
+    try {
 
-      const user = await User.findById(req.session.userId);
+      const user = await User.findById(req.session.userId).exec();
 
-      if (!user) {
-        return res.status(404).json({ message: "ooop user not found." });
+      if (user) {
 
+        res.json({ loggedIn: true, username: user.username, userId: user._id});
+      } else {
+        res.json({ loggedIn: false });
       }
-
-      res.json({ loggedIn: true, username: user.username });
-
-    } else {
-
-      res.json({ loggedIn: false });
+    } catch (error) {
+      res.status(500).json({ error: 'Internal server error', loggedIn: false });
     }
-  } catch (error) {
-
-    console.error(error);
-    res.status(500).json({ error: "internal server error", loggedIn: false });
+  } else {
+    res.json({ loggedIn: false });
   }
 };
+
 
 
 /*

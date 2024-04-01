@@ -3,7 +3,7 @@
 <head>
 
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width", initial-scale="1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Raffle Website!</title>
         <link rel="stylesheet" href="style.css">
 
@@ -12,14 +12,25 @@
 
 <body>
 
+
     <div id="nav">
 
         <a href="index.html" id ="home">Home</a>
-        <a href="signup.html">Sign Up</a>
-        <a href="login.html">Log In</a>
+
+        <div id="hello-user" style="display:none;">
+
+            <span id="user-display"></span>
+    
+            <button id="logout-btn" style="margin-left: 10px;">Logout! </button>
+        
+        </div>
+        <a href="signup.html" id="signup-btn">Sign Up</a>
+        <a href="login.html" id="login-btn">Log In</a>
         
     
     </div>
+
+    
 
 
 <main>
@@ -59,6 +70,7 @@
     </div>
     </section>
 </main>
+
 <script src="/js/index.js"></script>
 
 </body>       
