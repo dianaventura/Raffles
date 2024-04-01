@@ -1,7 +1,7 @@
 //use controller
 
 const User = require('../models/User');
-const Entry = require('../models/Entry')
+//const Entry = require('../models/Entry')
 
 const bcrypt = require('bcrypt');
 
@@ -20,12 +20,23 @@ exports.signup = async (req, res) => {
 
     // else ave new user
     const user = new User({ username, password, email });
+
     const userSaved = await user.save();
-      res.status(201).json(userSaved)
+     // res.status(201).json(userSaved)
 
     // log in user by starting session
 
     req.session.userId = userSaved._id;
+    console.log(userSaved._id)
+    req.session.loggedIn = true;
+
+    console.log('girl this is the cookie ')
+    console.log(req.session);
+
+    req.session.save();
+     
+    return res.status(201).json({ loggedIn: true, user: userSaved });
+    
 
   } catch (error) {
     console.error(error);
@@ -33,12 +44,15 @@ exports.signup = async (req, res) => {
   }
 };
 
+
+
 //controller for sessuin info 
 
-exports.getSession = async (req, res) => {
+exports.session = async (req, res) => {
 
   try {
-    if (req.session.userId) {
+    if (req.session.loggedIn) {
+
 
       const user = await User.findById(req.session.userId);
 
@@ -46,19 +60,22 @@ exports.getSession = async (req, res) => {
         return res.status(404).json({ message: "ooop user not found." });
 
       }
-      res.json({ isLoggedIn: true, username: user.username });
+
+      res.json({ loggedIn: true, username: user.username });
 
     } else {
 
-      res.json({ isLoggedIn: false });
+      res.json({ loggedIn: false });
     }
   } catch (error) {
 
     console.error(error);
-    res.status(500).json({ error: "internal server error", isLoggedIn: false });
+    res.status(500).json({ error: "internal server error", loggedIn: false });
   }
 };
 
+
+/*
 exports.enterAsUser = async(req,res) => {
   const{raffleId} = req.body;
   console.log(req.body);
@@ -70,6 +87,7 @@ exports.enterAsUser = async(req,res) => {
       res.status(500).json({error: 'Error with Guest save'})
   }
 }
+*/
 
 
   

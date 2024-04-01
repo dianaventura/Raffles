@@ -1,18 +1,30 @@
 
 function fetchRaffles(){
-    console.log('Fetching raffles...'); // Log before fetch
-    fetch('/get-raffles')
-    
+
+    fetch('/session', { credentials: 'include' })
         .then(response => response.json())
-        
-        .then(raffles => displayRaffles(raffles))
-        .catch(error => console.error('Error fetching raffles', error));
+
+        .then(session => {
+            console.log('Session data received:', session);
+
+            fetch('/get-raffles', { credentials: 'include' })
+               // console.log('Fetching raffles...'); // Log before fetch
+            .then(response => response.json())
+            
+            .then(raffles => displayRaffles(raffles,session.loggedIn))
+            .catch(error => console.error('Error fetching raffles', error));
+    
+        })
+
+        .catch(error => console.error('Error checking session', error));
 }
 
 
 
-function displayRaffles(raffles) {
-    console.log(raffles); // log the raffles array
+function displayRaffles(raffles, loggedIn) {
+    //console.log(raffles); // log the raffles array
+    console.log('User is logged in:', loggedIn);
+
     //get raffle container
 
     const container = document.getElementById('raffle-container');
@@ -20,23 +32,32 @@ function displayRaffles(raffles) {
     container.innerHTML = ''; 
 
     raffles.forEach(raffle => {
-        const raffleHTML = `
-            <div class="raffle-card">
-
-                <img src="${raffle.imageUrl}" alt="Raffle" class="raffle-image">
-                <h3>${raffle.title}</h3>
-                <p>Prize: ${raffle.prize}</p>
-                <p>Draw Date: ${raffle.drawDate}</p>
-                <form class="raffle-entry-form">
-                
-                <input type="text" name="guest-name" required placeholder ="Enter your name">
+            //if logged in show only button else show guest form :) 
+        const formOrButton = loggedIn ?
+            `<button onclick="enterRaffleAsUser('${raffle._id}')">Enter This Raffle</button>` :
+            `
+            <form class="raffle-entry-form">
+                <input type="text" name="guest-name" required placeholder="Enter your name">
                 <input type="email" name="guest-email" required placeholder="Enter your email">
+
                 <input type="hidden" name="raffleId" value="${raffle._id}">
 
                 <button type="submit">Enter This Raffle!!</button>
             </form>
+            `;
+
+        const raffleHTML = `
+            <div class="raffle-card">
+                <img src="${raffle.imageUrl}" alt="Raffle" class="raffle-image">
+                <h3>${raffle.title}</h3>
+                <p>Prize: ${raffle.prize}</p>
+                <p>Draw Date: ${raffle.drawDate}</p>
+
+                ${formOrButton}
+
             </div>
         `;
+
         container.innerHTML += raffleHTML;
     });
 
@@ -49,6 +70,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     fetchRaffles(); //fetches and displayes raffles 
 
+
+
     document.getElementById('raffle-container').addEventListener('submit', function(event) {
 
         if (event.target.matches('.raffle-entry-form')) {
@@ -60,9 +83,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const email = formData.get('guest-email');
             const raffleId = formData.get('raffleId');
 
-            console.log(name);
-            console.log(email);
-            console.log(raffleId)
+            //console.log(name);
+            //console.log(email);
+            // console.log(raffleId)
             
             var guestData = {
                 name: name,
@@ -70,7 +93,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 raffleId: raffleId
             };
 
-            console.log(guestData)
+            //console.log(guestData)
         
             // post request to server side 
             fetch('/enter-as-guest', {

@@ -6,13 +6,16 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const { MongoClient } = require("mongodb");
+const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const session = require('express-session');
 //routes
 const guestRoutes = require('./routes/guestRoutes');
 const raffleRoutes = require('./routes/raffleRoutes');
+
 const userRoutes = require('./routes/userRoutes');
+
 
 require('dotenv').config();
 
@@ -22,21 +25,24 @@ const port = process.env.PORT || 8080;
 //mongodb connection uri 
 const uri = process.env.DB_URI;
 
+//CHANGE LATER TO IP OF LINUX 
+const domain = process.env.DOMAIN;
+
 const secret = process.env.SESSION_SECRET;
 console.log("Session secret:", secret);
 
-app.use(cors());
+
+const options = {
+  origin: domain,
+  credentials: true, // cookies
+};
+
+app.use(cors(options));
+
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use(session({
-
-  secret: secret,
-  resave: false,
-  saveUninitialized: false,
-
-}));
 
 
 
@@ -48,16 +54,33 @@ app.use('/images',express.static(path.join(__dirname, 'frontend', 'images')));
 
 
 
+app.use(session({
+
+  secret: secret,
+  resave: false,
+  saveUninitialized: false,
+    
+  cookie: {
+    maxAge: 24 *60*60*1000,
+    secure: false, // Set to true in production with HTTPS
+    httpOnly: true,
+  },
+
+  store: MongoStore.create({ mongoUrl: uri }),
+
+}));
+
+
 mongoose.connect(uri, {
 })
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error(err));
 
 
-
+app.use(raffleRoutes);
 
 app.use(guestRoutes);
-app.use(raffleRoutes);
+
 app.use(userRoutes);
 
 //Start the server

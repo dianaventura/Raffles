@@ -4,7 +4,12 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 
-// Route for user entry
+
 router.post('/signup', userController.signup);
+
+router.get('/session', userController.session);
+
+// Route for user entry
+//router.post('/enter-as-guest', userController.enterAsUser);
 
 module.exports = router;
