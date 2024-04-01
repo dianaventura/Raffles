@@ -59,7 +59,11 @@ exports.login = async(req,res) =>{
 
     //check if password is right
 
-    if(user.password !== password){
+    //need to compare hashed password with apassword entered
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if(!match){
       return res.status(400).json({ message: 'Incorrect password' });
     }
 
@@ -78,6 +82,32 @@ exports.login = async(req,res) =>{
   }
     
   };
+
+
+//for logging out 
+
+exports.logout = async (req,res) => {
+
+  req.session.destroy(err => {
+
+    if (err) {
+
+      console.error('destroying session error:', err);
+
+      res.status(500).json({ message: 'logout failed' });
+
+    } else {
+
+      //clearing cookie from browser
+
+      res.clearCookie('connect.sid'); 
+      console.log('you were just logged out')
+      res.json({ message: 'log out worked!!!' });
+
+    }
+
+  });
+};
 
 
 //controller for sessuin info 
@@ -106,24 +136,7 @@ exports.session = async (req, res) => {
 };
 
 
-//for logging out 
 
-exports.logout = async(req,res) =>{
-
-  req.session.loggedIn = false;
-
- //end session
-  req.session.destroy((err) => {
-    if (err) {
-      console.error('Error destroying session:', err);
-      return res.status(500).json({ message: 'Failed to logout' });
-    }
-
-    res.redirect('/');
-  });
-
-    
-  };
 
 
 /*

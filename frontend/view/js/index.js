@@ -148,6 +148,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
+
+
+
     document.getElementById('logout-btn').addEventListener('click', function (event) {
         
         event.preventDefault(); 
@@ -155,14 +158,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
         // Send request to log out 
         fetch('/logout', {
 
-            method: 'GET',
-            credentials: 'include'
+            method: 'POST',
+    
         })
         .then(response => {
 
             if (response.ok) {
 
                 window.location.href = 'index.html'; 
+                console.log('YOU HAVE BEEN LOGGED OUT ?')
             } else {
                 console.error('Error logging out:', response.status); 
             }
