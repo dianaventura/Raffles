@@ -18,7 +18,7 @@ const userRoutes = require('./routes/userRoutes');
 
 
 require('dotenv').config();
-
+require('./cron');
 
 const port = process.env.PORT || 8080;
 

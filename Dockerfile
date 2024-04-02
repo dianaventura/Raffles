@@ -14,6 +14,7 @@ COPY ./models ./models
 COPY ./routes ./routes
 COPY ./controllers ./controllers
 COPY ./simpleServer.js ./
+COPY ./cron.js ./
 
 EXPOSE 8080
 
