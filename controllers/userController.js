@@ -155,7 +155,7 @@ exports.enterAsUser = async (req, res) => {
   
   const userId = req.session.userId;
 
- 
+ console.log(userId);
 
   try {
 

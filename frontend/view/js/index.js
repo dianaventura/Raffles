@@ -230,6 +230,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         .catch(error => console.error('Error logging out:', error)); // Log fetch error
     });
 
+
+  
+
     
 });
     

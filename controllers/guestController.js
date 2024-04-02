@@ -1,5 +1,6 @@
 //guest controller
 
+const Entry = require('../models/Entry');
 const Guest = require('../models/Guest');
 
 exports.enterAsGuest = async(req,res) => {
@@ -8,7 +9,15 @@ exports.enterAsGuest = async(req,res) => {
     try{
         const guest = new Guest({name,email,raffleId});
         const guestSaved = await guest.save();
-        res.status(201).json(guestSaved)
+
+        const entry = new Entry({raffleId:guestSaved.raffleId, guestToken: guestSaved.token});
+        const entrySaved = await entry.save();
+
+        res.status(201).json({
+            guest:guestSaved,
+            entry:entrySaved
+        });
+
     }catch(error){
         res.status(500).json({error: 'Error with Guest save'})
     }
