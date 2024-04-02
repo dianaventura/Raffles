@@ -1,9 +1,11 @@
 //use controller
 
 const User = require('../models/User');
-//const Entry = require('../models/Entry')
+const Entry = require('../models/Entry');
 
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
+
 
 
 //controller for registering usrs
@@ -73,7 +75,10 @@ exports.login = async(req,res) =>{
     req.session.loggedIn = true;
     req.session.save();
 
-    res.json({ message: 'LOGIN was a SUCCES. ', user: { id: user._id, email: user.email } });
+    console.log(req.session);
+
+    res.status(201).json({ loggedIn: true, user: user._id });
+
 
   } catch (error) {
 
@@ -137,21 +142,46 @@ exports.session = async (req, res) => {
 
 
 
+exports.enterAsUser = async (req, res) => {
 
+  if (!req.session.userId) {
 
-/*
-exports.enterAsUser = async(req,res) => {
-  const{raffleId} = req.body;
-  console.log(req.body);
-  try{
-      const entry = new Entry({raffleId});
-      const entrySaved = await entry.save();
-      res.status(201).json(entrySaved)
-  }catch(error){
-      res.status(500).json({error: 'Error with Guest save'})
+    return res.status(403).json({ message: "youuuu are not logged in" });
   }
-}
-*/
+
+  const { raffleId } = req.body;
+
+  
+  
+  const userId = req.session.userId;
+
+ 
+
+  try {
+
+
+    const entry = new Entry({
+
+      raffleId,
+      userId
+    });
 
 
   
+    const savedEntry = await entry.save();
+
+    console.log(savedEntry);
+    res.status(201).json(savedEntry);
+
+  } catch (error) {
+
+    console.error('error saving entry:', error);
+    res.status(500).json({ message: "error saving entry" });
+  }
+};
+
+
+
+
+  
+

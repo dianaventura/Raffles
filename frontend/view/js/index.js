@@ -64,7 +64,7 @@ function displayRaffles(raffles, session) {
     raffles.forEach(raffle => {
             //if logged in show only button else show guest form :) 
         const formOrButton = session.loggedIn ?
-            `<button onclick="enterRaffleAsUser('${raffle._id}')">Enter This Raffle</button>` :
+            `<button class="enter-user-btn" raffleId="${raffle._id}">Enter This Raffle</button>` :
             `
             <form class="raffle-entry-form">
                 <input type="text" name="guest-name" required placeholder="Enter your name">
@@ -91,11 +91,64 @@ function displayRaffles(raffles, session) {
         container.innerHTML += raffleHTML;
     });
 
+    enterButtonListeners();
+
+        
+
 
 }
 
 
+function enterButtonListeners(){
+    const container = document.getElementById('raffle-container');
+//for each "enter as user" button
+    const userEnter = container.querySelectorAll('.enter-user-btn');
 
+    userEnter.forEach(button => {
+
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            
+            const raffleId = button.getAttribute('raffleId');
+        
+
+            console.log(raffleId);
+
+           
+            
+            // request to enter as a user
+
+            fetch('/enter-as-user', {
+
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify({ raffleId})
+
+                
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('problem! ');
+                }
+            })
+            .then(data => {
+                alert('giiiirl have been entered into the raffle!');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+
+                alert('error, please try again!');
+            });
+
+        });
+
+    });
+}
 
 document.addEventListener('DOMContentLoaded', (event) => {
 
@@ -150,12 +203,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-
     document.getElementById('logout-btn').addEventListener('click', function (event) {
         
         event.preventDefault(); 
       
-        // Send request to log out 
+        // send request to log out 
         fetch('/logout', {
 
             method: 'POST',

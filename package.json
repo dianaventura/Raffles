@@ -18,7 +18,8 @@
     "express-session": "^1.18.0",
     "mongod": "^2.0.0",
     "mongodb": "^6.3.0",
-    "mongoose": "^8.2.3"
+    "mongoos": "^0.0.1-security",
+    "mongoose": "^8.2.4"
   },
   "devDependencies": {
     "@types/node": "^20.11.20"
