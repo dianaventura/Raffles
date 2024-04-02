@@ -3,7 +3,7 @@ const raffle = new mongoose.Schema({
     title: String,
     prize: String,
     drawDate: Date,
-    imageUrl: String,
+    imageUrl: { type: String, default: '../frontend/images/raffle_index.jpg' },
 });
 
 const Raffle = mongoose.model('Raffle', raffle);

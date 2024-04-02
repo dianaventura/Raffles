@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+ <head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width", initial-scale="1.0">
+    <title>Create a Raffle</title>
+    <link rel="stylesheet" href="style.css">
+
+ </head>
+ <div id="nav">
+
+   <a href="index.html" id ="home">Home</a>
+   <a href="signup.html">Sign Up</a>
+   <a href="login.html">Log In</a>
+   
+
+</div>
+ <body>
+
+    <h1>Create Raffle!</h1>
+
+    <div id="create-raffle-container">
+
+        <h2>Add Raffle Details</h2>
+
+        <form id="raffle-form" action="/create-raffle" method="post">
+      
+
+            <label for="raffle-title">Raffle Title:</label>
+            <input type="text" id="raffle-title" name="title" required><br>
+    
+            <label for="raffle-prize">Prize:</label>
+            <input type="text" id="raffle-prize" name="prize" required><br>
+    
+            <label for="raffle-drawDate">Draw Date:</label>
+            <input type="date" id="raffle-drawDate" name="drawDate" required><br>
+    
+
+    
+            <button type="submit">Create Raffle</button>
+    </form>
+    </div>
+    <script src="/js/createRaffle.js"></script>
+ </body>
+</html>
