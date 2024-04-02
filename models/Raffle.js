@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const raffle = new mongoose.Schema({
-    title: String,
-    prize: String,
-    drawDate: Date,
+    title: { type: String, required: true},
+    prize: { type: String, required: true},
+    drawDate: {type: Date, required: true},
     imageUrl: { type: String, default: '../frontend/images/raffle_index.jpg' },
 });
 

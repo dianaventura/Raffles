@@ -28,6 +28,7 @@ function updateHome(session) {
     const loginButt = document.getElementById('login-btn');
     const signupButt = document.getElementById('signup-btn');
     const helloUser = document.getElementById('hello-user');
+    const createRaffle = document.getElementById('create-raffle-btn');
   
     if (session.loggedIn) {
 
@@ -40,11 +41,14 @@ function updateHome(session) {
 
         helloUser.style.display = 'block';
         document.getElementById('user-display').textContent = `Welcome, ${session.username}!`;
+        //show create raffle option
 
+        createRaffle.style.display = 'block'; 
     } else {
         
         // hide hello-user section
        helloUser.style.display = 'none';
+       createRaffle.style.display = 'none';
     }
 }
 
