@@ -9,6 +9,7 @@ router.get('/get-raffles', raffleController.getRaffles);
 
 router.post('/create-raffle', raffleController.createRaffle);
 
+router.get('/get-winners',raffleController.getWinners);
 
 
 module.exports = router;

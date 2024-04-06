@@ -23,6 +23,7 @@ function fetchRaffles(){
         .catch(error => console.error('Error checking session', error));
 }
 
+
 function updateHome(session) {
 
     const loginButt = document.getElementById('login-btn');
@@ -44,6 +45,8 @@ function updateHome(session) {
         //show create raffle option
 
         createRaffle.style.display = 'block'; 
+
+    
     } else {
         
         // hide hello-user section

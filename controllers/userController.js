@@ -67,6 +67,7 @@ exports.login = async(req,res) =>{
 
     if(!match){
       return res.status(400).json({ message: 'Incorrect password' });
+     
     }
 
     //if user exists and password is crrect log in and start session
@@ -125,6 +126,7 @@ exports.session = async (req, res) => {
     try {
 
       const user = await User.findById(req.session.userId).exec();
+    
 
       if (user) {
 
@@ -143,6 +145,8 @@ exports.session = async (req, res) => {
 
 
 exports.enterAsUser = async (req, res) => {
+
+  
 
   if (!req.session.userId) {
 
