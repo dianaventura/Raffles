@@ -5,6 +5,8 @@ const User = require('../models/User');
 const Guest = require('../models/Guest');
 const Entry = require('../models/Entry');
 
+let winnersQueue =[];
+
 exports.getRaffles = async(req,res) => {
     try{
         
@@ -61,13 +63,25 @@ exports.createRaffle = async(req,res) =>{
 
     for (const raffle of expiredRaffles) {
    
-    const winnerId = await setWinner(raffle);
+    const {winnerName} = await setWinner(raffle);
+
     //  mark the raffle as drawn and delete guest entries
 
- 
-    await Raffle.findByIdAndUpdate(raffle._id, { winnerId, drawn: true });
+    if (winnerName) {
+        winnersQueue.push({
 
-    await Guest.deleteMany({ raffleId: raffle._id });
+            winnerName: winnerName,
+
+            raffleTitle: raffle.title,
+            
+            prize: raffle.prize,
+        });
+
+        await Raffle.findByIdAndUpdate(raffle._id, { drawn: true });
+
+        await Guest.deleteMany({ raffleId: raffle._id });
+    }
+
 
     console.log(`Processed draw for raffle: ${raffle.title}`);
     console.log(raffle._id);
@@ -87,53 +101,65 @@ exports.createRaffle = async(req,res) =>{
               return null;
             }
         
-            //for multiple entries
+            /*for multiple entries
             let weightedEntries = [];
 
             entries.forEach(entry => {
                 console.log(entry.userId);
               weightedEntries.push(entry.userId); 
             });
+            */
         
             // randomly select a winner from weightedEntries
-            const winnerIndex = Math.floor(Math.random() * weightedEntries.length);
-            const winnerId = weightedEntries[winnerIndex];
-
+            const winnerIndex = Math.floor(Math.random() * entries.length);
+            console.log('this is the winning entry doc :', entries[winnerIndex])
             
-            console.log(winnerId);
+            //const winner = weightedEntries[winnerIndex];
+            const winningId = entries[winnerIndex];
+
+            //console.log(winner);
+
+            let winningEntry = await Entry.findById(winningId);
+    
 
             //mark winning entry
 
-            winnerId.winner = true;
+            winningEntry.winner = true;
+            console.log('this is the winning ticket',winningEntry);
             await winningEntry.save();
             //get winner name
 
-            let winnerName = 'unKnown'
+            let winnerName = 'unKnown';
 
-            if(winnerId.userId){
-              const user = await User.findById(winnerId.userid);
+            if(winningEntry.userId){
+              const user = await User.findById(winningEntry.userId);
               //if display is unknown user something is wrong
               winnerName = user ? user.username: 'Unknown User';
 
-            }else if (winnerId.guestToken){
-              const guest = await Guest.findOne({token:winnerId.guestToken});
+            }else if (winningEntry.guestToken){
+              const guest = await Guest.findOne({token:winner.guestToken});
               const random = Math.floor(Math.random() * 10000);
-              winnerName= 'Guest Number $[random}. You will be contacted with the details you used to enter!';
-            }
+              winnerName= 'Guest Number ${random}. You will be contacted with the details you used to enter!';
+            };
+          
+           
             // update the raffle with the winner's ID
-            await Raffle.findByIdAndUpdate(raffle._id, { winnerId: winnerId });
+            await Raffle.findByIdAndUpdate(raffle._id, { winnerId: winner });
+
+            console.log(`The winner for raffle ${raffle.title} is ${winnerName}`)
         
-            return winnerId;
+            return {EntryId: winningEntry._id, winnerName};
           } catch (error) {
             console.error('Error finding the winner:', error);
-            return null; // Return null to indicate failure
+            return null;
           }
 
     };
 
-    exports.getWinners = (req,res) =>{
+    exports.getWinners = (req, res) => {
 
       res.json(winnersQueue);
-      winnersQueue =[];
 
-    }
+      winnersQueue = [];
+    };
+  

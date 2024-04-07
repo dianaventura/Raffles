@@ -53,6 +53,7 @@ function updateHome(session) {
        helloUser.style.display = 'none';
        createRaffle.style.display = 'none';
     }
+    
 }
 
 
@@ -106,6 +107,7 @@ function displayRaffles(raffles, session) {
 }
 
 
+
 function enterButtonListeners(){
     const container = document.getElementById('raffle-container');
 //for each "enter as user" button
@@ -157,9 +159,31 @@ function enterButtonListeners(){
     });
 }
 
+function fetchAndDisplayWinners() {
+    //testing
+
+    fetch('/get-winners', {
+
+        credentials: 'include' 
+    })
+    .then(response => response.json())
+    .then(winners => {
+        if (winners.length > 0) {
+            winners.forEach(winner => {
+                
+                console.log(`winner Announcement!!!: The winner of ${winner.raffleTitle} is ${winner.winnerName}! Prize: ${winner.prize}`);
+               
+                alert(`winner Announcement!!: The winner of ${winner.raffleTitle} is ${winner.winnerName}! Prize: ${winner.prize}`);
+            });
+        }
+    })
+    .catch(error => console.error('error getting winners:', error));
+}
+
 document.addEventListener('DOMContentLoaded', (event) => {
 
     fetchRaffles(); //fetches and displayes raffles 
+    setInterval(fetchAndDisplayWinners, 60000); //check for winnas
 
 
 
