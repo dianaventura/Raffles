@@ -11,9 +11,15 @@ function fetchRaffles(){
                // console.log('Fetching raffles...'); // Log before fetch
             .then(response => response.json())
             
-            .then(raffles => {
+            .then(data => {
 
-                displayRaffles(raffles,session);
+                if (session.loggedIn && (!data.activeRaffles || !Array.isArray(data.raffleIds))) {
+                    throw new Error('Invalid data format for logged in user');
+                } else if (!session.loggedIn && !Array.isArray(data)) {
+                    throw new Error('Invalid data format for guest user');
+                }
+
+                displayRaffles(data,session);
                 updateHome(session);
             })
             .catch(error => console.error('Error fetching raffles', error));
@@ -62,12 +68,27 @@ function updateHome(session) {
 function displayRaffles(data, session) {
     //console.log(data); // log the raffles array
     console.log('User is logged in:', session.loggedIn);
+    console.log('data being sent:', data);
 
-    if(session.loggedIn && data.raffles && data.raffleIds){
-        raffles = data.raffles;
-        enteredRaffles = data.raffleIds;
+    let enteredRaffles = [];
+    let raffles;
 
+    if(session.loggedIn) {
+        
+        raffles = data.activeRaffles;
+        
+        if (data.raffleIds && Array.isArray(data.raffleIds)) {
+            
+            enteredRaffles = data.raffleIds;
+        } else {
+           
+            enteredRaffles = [];
+        }
+    } else {
+        // if user is not logged in
+        raffles = data;
     }
+
 
     //get raffle container
 
@@ -161,6 +182,7 @@ function enterButtonListeners(){
             })
             .then(data => {
                 alert('giiiirl have been entered into the raffle!');
+                window.location.reload();
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -200,6 +222,7 @@ function withdrawButtonListeners(){
             console.log('Withdrawal successful:', data);
 
             alert('girrrllll you have been withdrawn from the raffle');
+            window.location.reload();
 
             button.parentElement.removeChild(button); 
             
@@ -277,6 +300,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 console.log('Success:', data);
 
                 alert('OMGG !!! gURL. You have been entered into the raffle!');
+                window.location.reload();
+               
             })
             .catch((error) => {
                 console.error('Error:', error);

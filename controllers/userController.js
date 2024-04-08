@@ -17,7 +17,8 @@ exports.signup = async (req, res) => {
     const existingUser = await User.findOne({ username });
      //  if user already exists
     if (existingUser) {
-      return res.status(400).send('Girlie OOPS user already exists!!');
+     
+      return res.status(400).json({ message: 'User Already Exists' });
     }
 
     // else ave new user
@@ -66,7 +67,7 @@ exports.login = async(req,res) =>{
     const match = await bcrypt.compare(password, user.password);
 
     if(!match){
-      return res.status(400).json({ message: 'Incorrect password' });
+      return res.status(400).json({ message: 'Wrong Password!!' });
      
     }
 

@@ -10,16 +10,31 @@ let winnersQueue =[];
 exports.getRaffles = async(req,res) => {
     try{
         
-        const raffles = await Raffle.find({drawn:false}); 
+        const activeRaffles = await Raffle.find({drawn:false}); 
+  
         
         const userId = req.session.userId;
+
+  
+
         if(userId){
-          const enteredRaffles = await Entries.find({ userId: userId }, 'raffleId').lean();
+      
+
+          const enteredRaffles = await Entry.find({
+            userId: userId
+          });
+
           const raffleIds = enteredRaffles.map(entry => entry.raffleId);
-          res.status(200).json({raffles,raffleIds});
+
+          res.status(200).json({activeRaffles,raffleIds});
+
+          //console.log(activeRaffles, raffleIds);
+
         }else{
-          res.status(200).json(raffles)
+          console.log('help diana ');
+          res.status(200).json(activeRaffles)
         }
+
     }catch(error){
         res.status(500).json({error: 'Could not find raffles'});
     }
@@ -106,6 +121,7 @@ exports.createRaffle = async(req,res) =>{
 
             if (entries.length === 0) {
               console.log('No entries for this raffle.');
+            
               return null;
             }
         

@@ -39,7 +39,16 @@ document.addEventListener('DOMContentLoaded', function () {
           credentials: 'include',
           body: JSON.stringify(userData)
       })
-      .then(response => response.json())
+      .then(response => {
+        
+        if (!response.ok) {
+       
+            return response.json().then(data => Promise.reject(data.message));
+        }
+
+        return response.json();
+
+      })
       .then(data => {
           console.log('Success:', data);
           alert('OMGG !!! gURL. You have signed up tysm');
@@ -48,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
       .catch((error) => {
           console.error('Error:', error);
          
-          alert('That. did not work ');
+          alert(error);
 
       });
 
