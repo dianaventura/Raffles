@@ -49,8 +49,18 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(data => {
             console.log('Success:', data);
-            alert('OMGG !!! gURL. You have been logged in tysm');
-            window.location.href = 'index.html';
+
+
+            localStorage.setItem('userId',data.user);
+            if (data.prizes && data.prizes.length > 0) {
+                localStorage.setItem('unclaimedPrizes', JSON.stringify(data.prizes));
+            }
+            
+           
+                alert('OMGG !!! gURL. You have been logged in tysm');
+                window.location.href = 'index.html';
+
+
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -62,4 +72,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
   });
+
   

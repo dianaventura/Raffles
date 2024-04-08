@@ -1,12 +1,11 @@
 
+
 function fetchRaffles(){
 
     fetch('/session', { credentials: 'include' })
         .then(response => response.json())
 
         .then(session => {
-            console.log('Session data received:', session);
-
             fetch('/get-raffles', { credentials: 'include' })
                // console.log('Fetching raffles...'); // Log before fetch
             .then(response => response.json())
@@ -21,6 +20,10 @@ function fetchRaffles(){
 
                 displayRaffles(data,session);
                 updateHome(session);
+                
+                setTimeout(() => {
+                    alertWinner();
+                }, 2000);
             })
             .catch(error => console.error('Error fetching raffles', error));
     
@@ -58,6 +61,24 @@ function updateHome(session) {
         // hide hello-user section
        helloUser.style.display = 'none';
        createRaffle.style.display = 'none';
+    }
+
+}
+
+
+function alertWinner(){
+
+    const unclaimedPrizes = JSON.parse(localStorage.getItem('unclaimedPrizes'));
+
+    if (unclaimedPrizes && unclaimedPrizes.length > 0) {
+       
+        unclaimedPrizes.forEach(prize => {
+            const message = `YO! While you were gone, you were the winner of:\n${prize.raffleTitle}: ${prize.prize}`;
+            alert(message);
+        });
+        //clear after alert
+        localStorage.removeItem('unclaimedPrizes');
+        localStorage.removeItem('userId');
     }
 
 }
@@ -141,6 +162,7 @@ function displayRaffles(data, session) {
 
 }
 
+  
 
 
 function enterButtonListeners(){
@@ -251,6 +273,7 @@ function fetchAndDisplayWinners() {
                 console.log(`winner Announcement!!!: The winner of ${winner.raffleTitle} is ${winner.winnerName}! Prize: ${winner.prize}`);
                
                 alert(`winner Announcement!!: The winner of ${winner.raffleTitle} is ${winner.winnerName}! Prize: ${winner.prize}`);
+                window.location.reload(); 
             });
         }
     })
@@ -259,9 +282,14 @@ function fetchAndDisplayWinners() {
 
 document.addEventListener('DOMContentLoaded', (event) => {
 
-    fetchRaffles(); //fetches and displayes raffles 
+    fetchRaffles(); //fetches and displayes raffles
+  
+
     setInterval(fetchAndDisplayWinners, 60000); //check for winnas
 
+   
+        
+    
 
 
     document.getElementById('raffle-container').addEventListener('submit', function(event) {
@@ -327,6 +355,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             if (response.ok) {
 
+                localStorage.removeItem('userId');
+                localStorage.removeItem('unclaimedPrizes');
+
                 window.location.href = 'index.html'; 
                 console.log('YOU HAVE BEEN LOGGED OUT ?')
             } else {
@@ -336,7 +367,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         .catch(error => console.error('Error logging out:', error)); // Log fetch error
     });
 
-
+      //only on log in 
+    
   
 
     

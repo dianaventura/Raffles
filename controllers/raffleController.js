@@ -4,6 +4,7 @@ const Raffle = require('../models/Raffle');
 const User = require('../models/User');
 const Guest = require('../models/Guest');
 const Entry = require('../models/Entry');
+const Prize = require('../models/Prize');
 
 let winnersQueue =[];
 
@@ -31,7 +32,7 @@ exports.getRaffles = async(req,res) => {
           //console.log(activeRaffles, raffleIds);
 
         }else{
-          console.log('help diana ');
+          console.log('no one is logged in right now');
           res.status(200).json(activeRaffles)
         }
 
@@ -124,27 +125,14 @@ exports.createRaffle = async(req,res) =>{
             
               return null;
             }
-        
-            /*for multiple entries
-            let weightedEntries = [];
 
-            entries.forEach(entry => {
-                console.log(entry.userId);
-              weightedEntries.push(entry.userId); 
-            });
-            */
+            //for weighte
         
             // randomly select a winner from weightedEntries
             const winnerIndex = Math.floor(Math.random() * entries.length);
             console.log('this is the winning entry doc :', entries[winnerIndex])
             
-            //const winner = weightedEntries[winnerIndex];
             const winningEntry = entries[winnerIndex];
-
-            //console.log(winner);
-
-            //let winningEntry = await Entry.findById(winningId);
-    
 
             //mark winning entry
 
@@ -170,6 +158,14 @@ exports.createRaffle = async(req,res) =>{
             // update the raffle with the winner's entry ID
             await Raffle.findByIdAndUpdate(raffle._id, { winnerId: winningEntry._id});
 
+            const prize = new Prize({
+              userId: winningEntry.userId || winningEntry.guestToken,
+              raffleId: raffle._id,
+              claimed: false
+            })
+            console.log(prize);
+            await prize.save();
+
             console.log(`The winner for raffle ${raffle.title} is ${winnerName}`)
         
             return {EntryId: winningEntry._id, winnerName};
@@ -186,4 +182,4 @@ exports.createRaffle = async(req,res) =>{
 
       winnersQueue = [];
     };
-  
+

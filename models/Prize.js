@@ -1,4 +1,4 @@
-const mongoose = requier('mongoose');
+const mongoose = require('mongoose');
 
 const prize = new mongoose.Schema({
     userId: {type:mongoose.Schema.Types.ObjectId, ref:'User', required:true},
@@ -7,6 +7,6 @@ const prize = new mongoose.Schema({
     claimDate:{type:Date,default:Date.now}
 })
 
-const Prize = mongoose.model('Prize', Prize);
+const Prize = mongoose.model('Prize', prize);
 
 module.exports = Prize;
