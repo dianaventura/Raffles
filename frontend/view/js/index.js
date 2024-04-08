@@ -53,7 +53,7 @@ function updateHome(session) {
        helloUser.style.display = 'none';
        createRaffle.style.display = 'none';
     }
-    
+
 }
 
 

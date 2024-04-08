@@ -11,7 +11,15 @@ exports.getRaffles = async(req,res) => {
     try{
         
         const raffles = await Raffle.find({drawn:false}); 
-        res.status(200).json(raffles)
+        
+        const userId = req.session.userId;
+        if(userId){
+          const enteredRaffles = await Entries.find({ userId: userId }, 'raffleId').lean();
+          const raffleIds = enteredRaffles.map(entry => entry.raffleId);
+          res.status(200).json({raffles,raffleIds});
+        }else{
+          res.status(200).json(raffles)
+        }
     }catch(error){
         res.status(500).json({error: 'Could not find raffles'});
     }
@@ -85,7 +93,7 @@ exports.createRaffle = async(req,res) =>{
 
     console.log(`Processed draw for raffle: ${raffle.title}`);
     console.log(raffle._id);
-    console.log(`The Winner for: ${raffle.title} is :  ${winnerId}`);
+    console.log(`The Winner for: ${raffle.title} is :  ${winnerName}`);
     }
     };
 
@@ -115,11 +123,11 @@ exports.createRaffle = async(req,res) =>{
             console.log('this is the winning entry doc :', entries[winnerIndex])
             
             //const winner = weightedEntries[winnerIndex];
-            const winningId = entries[winnerIndex];
+            const winningEntry = entries[winnerIndex];
 
             //console.log(winner);
 
-            let winningEntry = await Entry.findById(winningId);
+            //let winningEntry = await Entry.findById(winningId);
     
 
             //mark winning entry
@@ -137,14 +145,14 @@ exports.createRaffle = async(req,res) =>{
               winnerName = user ? user.username: 'Unknown User';
 
             }else if (winningEntry.guestToken){
-              const guest = await Guest.findOne({token:winner.guestToken});
+              const guest = await Guest.findOne({token:winningEntry.guestToken});
               const random = Math.floor(Math.random() * 10000);
               winnerName= 'Guest Number ${random}. You will be contacted with the details you used to enter!';
             };
           
            
-            // update the raffle with the winner's ID
-            await Raffle.findByIdAndUpdate(raffle._id, { winnerId: winner });
+            // update the raffle with the winner's entry ID
+            await Raffle.findByIdAndUpdate(raffle._id, { winnerId: winningEntry._id});
 
             console.log(`The winner for raffle ${raffle.title} is ${winnerName}`)
         

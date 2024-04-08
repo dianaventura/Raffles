@@ -184,6 +184,38 @@ exports.enterAsUser = async (req, res) => {
   }
 };
 
+exports.withdrawUser = async (req, res) => {
+
+  
+
+  if (!req.session.userId) {
+
+    return res.status(403).json({ message: "youuuu are not logged in" });
+  }
+
+  const { raffleId } = req.body;
+
+  
+  
+  const userId = req.session.userId;
+
+ console.log(userId);
+
+  try {
+
+  
+    const deletedEntry =  await Entry.deleteMany({ raffleId: raffleId, userId: userId});
+
+    
+    res.status(201).json(deletedEntry);
+
+  } catch (error) {
+
+    console.error('error deleting entry:', error);
+    res.status(500).json({ message: "error deleting entry" });
+  }
+};
+
 
 
 

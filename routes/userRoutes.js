@@ -16,4 +16,6 @@ router.post('/logout', userController.logout);
 
 router.post('/enter-as-user', userController.enterAsUser);
 
+router.post('/withdraw-user', userController.withdrawUser);
+
 module.exports = router;
