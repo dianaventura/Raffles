@@ -59,9 +59,15 @@ function updateHome(session) {
 
 
 
-function displayRaffles(raffles, session) {
-    //console.log(raffles); // log the raffles array
+function displayRaffles(data, session) {
+    //console.log(data); // log the raffles array
     console.log('User is logged in:', session.loggedIn);
+
+    if(session.loggedIn && data.raffles && data.raffleIds){
+        raffles = data.raffles;
+        enteredRaffles = data.raffleIds;
+
+    }
 
     //get raffle container
 
@@ -70,10 +76,14 @@ function displayRaffles(raffles, session) {
     container.innerHTML = ''; 
 
     raffles.forEach(raffle => {
+
+        const entered = enteredRaffles.includes(raffle._id.toString());
             //if logged in show only button else show guest form :) 
         const formOrButton = session.loggedIn ?
-            `<button class="enter-user-btn" raffleId="${raffle._id}">Enter This Raffle</button>` :
+            `<button class="enter-user-btn" raffleId="${raffle._id}">Enter This Raffle</button>`  +
+            (entered ? `<button class="withdraw-user-btn" raffleId="${raffle._id}">Withdraw</button>` : '') :
             `
+            
             <form class="raffle-entry-form">
                 <input type="text" name="guest-name" required placeholder="Enter your name">
                 <input type="email" name="guest-email" required placeholder="Enter your email">
@@ -100,6 +110,10 @@ function displayRaffles(raffles, session) {
     });
 
     enterButtonListeners();
+
+    if(session.loggedIn){
+        withdrawButtonListeners();
+    }
 
         
 
@@ -156,6 +170,46 @@ function enterButtonListeners(){
 
         });
 
+    });
+}
+
+function withdrawButtonListeners(){
+
+    const withdrawButtons = document.querySelectorAll('.withdraw-user-btn');
+
+    withdrawButtons.forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            const raffleId = this.getAttribute('raffleId');
+            console.log('Withdrawing  from raffle...', raffleId);
+
+        fetch('/withdraw-user', { 
+
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include', 
+
+            body: JSON.stringify({ raffleId }),
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log('Withdrawal successful:', data);
+
+            alert('girrrllll you have been withdrawn from the raffle');
+
+            button.parentElement.removeChild(button); 
+            
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('an error occured');
+        });
+
+        });
     });
 }
 
