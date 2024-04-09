@@ -165,7 +165,7 @@ exports.createRaffle = async(req,res) =>{
             }else if (winningEntry.guestToken){
               const guest = await Guest.findOne({token:winningEntry.guestToken});
               const random = Math.floor(Math.random() * 10000);
-              winnerName= `Guest Number ${random}. You will be contacted with the details you used to enter!`;
+              winnerName= `GuestTicket:${random}`;
               prizeData.guestToken = winningEntry.guestToken;
             };
           

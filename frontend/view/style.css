@@ -81,6 +81,7 @@ button:hover{
     color:orange;
     padding: 10px 20px;
     border-radius:5px;
+    font-weight: bold;
 
 }
 
@@ -132,11 +133,18 @@ button:hover{
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
 #user-display {
 
     margin-right: 10px;
+
+    border-radius: 10px;
+    margin-bottom: 20px;
+
 }
 
 #nav button, #nav a #nav div{
