@@ -45,11 +45,9 @@ exports.signup = async (req, res) => {
     // log in user by starting session
 
     req.session.userId = userSaved._id;
-    console.log(userSaved._id)
+  
     req.session.loggedIn = true;
 
-    console.log('girl this is the cookie ')
-    console.log(req.session);
 
 
     req.session.save();
@@ -98,19 +96,13 @@ exports.login = async (req, res) => {
 
     req.session.userId = user._id;
     req.session.loggedIn = true;
-    //req.session.save();
 
-    console.log(req.session);
 
 
 
     const prizes = await getUnclaimedPrizes(user._id);
 
     req.session.prizes = prizes;
-
-
-
-    console.log(req.session.prizes)
 
     req.session.save();
 
@@ -154,9 +146,9 @@ exports.logout = async (req, res) => {
 
 async function getUnclaimedPrizes(userId) {
 
-  console.log('checking for prizes..');
+
   const prizes = await Prize.find({ userId: userId, claimed: false }).populate('raffleId');
-  console.log("getCHECKKKKKKK",prizes);
+ 
 
   if(prizes && prizes.length>0){
 
@@ -170,7 +162,7 @@ async function getUnclaimedPrizes(userId) {
   }
 }
 
-  console.log(prizes);
+
   return prizes.map(prize => ({
 
     raffleTitle: prize.raffleId.title,
@@ -228,7 +220,6 @@ exports.enterAsUser = async (req, res) => {
 
   const userId = req.session.userId;
 
-  console.log(userId);
 
   try {
 
@@ -243,7 +234,6 @@ exports.enterAsUser = async (req, res) => {
 
     const savedEntry = await entry.save();
 
-    console.log(savedEntry);
     res.status(201).json(savedEntry);
 
   } catch (error) {
@@ -268,7 +258,6 @@ exports.withdrawUser = async (req, res) => {
 
   const userId = req.session.userId;
 
-  console.log(userId);
 
   try {
 

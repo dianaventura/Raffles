@@ -91,9 +91,9 @@ exports.createRaffle = async(req,res) =>{
 
     const now = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60000);
 
-    console.log(now);
+    
     const expiredRaffles = await Raffle.find({ drawDate: { $lte: now },drawn: false});
-    console.log(expiredRaffles);
+ 
 
     for (const raffle of expiredRaffles) {
    
@@ -127,7 +127,7 @@ exports.createRaffle = async(req,res) =>{
 
         try {
             // get all entries for that raffle
-            console.log(raffle._id);
+        
             const entries = await Entry.find({ raffleId: raffle._id });
 
             if (entries.length === 0) {
@@ -140,14 +140,14 @@ exports.createRaffle = async(req,res) =>{
         
             // randomly select a winner from weightedEntries
             const winnerIndex = Math.floor(Math.random() * entries.length);
-            console.log('this is the winning entry doc :', entries[winnerIndex])
+          
             
             const winningEntry = entries[winnerIndex];
 
             //mark winning entry
 
             winningEntry.winner = true;
-            console.log('this is the winning ticket',winningEntry);
+    
             await winningEntry.save();
             //get winner name
 
@@ -174,10 +174,10 @@ exports.createRaffle = async(req,res) =>{
             await Raffle.findByIdAndUpdate(raffle._id, { winnerId: winningEntry._id});
 
             const prize = new Prize(prizeData)
-            console.log(prize);
+      
             await prize.save();
 
-            console.log(`The winner for raffle ${raffle.title} is ${winnerName}`)
+            //console.log(`The winner for raffle ${raffle.title} is ${winnerName}`)
         
             return {EntryId: winningEntry._id, winnerName};
           } catch (error) {
