@@ -9,7 +9,7 @@
 - ✅ **Automated Draws** - Uses cron to draw a winner at random and display them on the website. Winners are announced live! 
 - ✅ **Extra User Perks** - User will be notified if they won anything while they were logged out . Users can create their own raffles that will be displayed on the website!! Users can withdraw themselves from a raffle anytime before the raffle is drawn. Guest details are only deleted once the raffle is drawn.
 - - ✅ **Multiple Raffles Can Happen** - from different raffle holders with different draw times
-- 🔒 **Security Measures** - Passwords are hashed. Guest details are deleted upon raffle completion. All user input fields are sanitised using express-validation.
+- 🔒 **Security Measures** - Passwords are hashed. Guest cannot withdraw but their details will be deleted upon raffle completion. All user input fields are sanitised using express-validation.
 
 - ❌ **Lucky Numbers** - The ability to select lucky numbers is not yet implemented. 🚫
 
