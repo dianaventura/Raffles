@@ -1,4 +1,8 @@
 
+import JSConfetti from 'js-confetti';
+
+
+const jsConfetti = new JSConfetti();
 
 function fetchRaffles(){
 
@@ -20,7 +24,7 @@ function fetchRaffles(){
 
                 displayRaffles(data,session);
                 updateHome(session);
-                
+
                 setTimeout(() => {
                     alertWinner();
                 }, 2000);
@@ -71,7 +75,7 @@ function alertWinner(){
     const unclaimedPrizes = JSON.parse(localStorage.getItem('unclaimedPrizes'));
 
     if (unclaimedPrizes && unclaimedPrizes.length > 0) {
-       
+        jsConfetti.addConfetti();
         unclaimedPrizes.forEach(prize => {
             const message = `YO! While you were gone, you were the winner of:\n${prize.raffleTitle}: ${prize.prize}`;
             alert(message);
@@ -323,7 +327,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 },
                 body: JSON.stringify(guestData)
             })
-            .then(response => response.json())
+            .then(response => {
+
+                if (response.ok) {
+                    return response.json();
+        
+                  } else {
+                    //handle errors here
+                    return response.json().then(err => {
+                      throw err;
+                    });
+                  }
+
+            })
             .then(data => {
                 console.log('Success:', data);
 
@@ -334,7 +350,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
             .catch((error) => {
                 console.error('Error:', error);
 
-                alert('girl. im so sorry an error occurred. please try again!');
+                //alert('girl. im so sorry an error occurred. please try again!');
+
+                
+                const errorMessages = error.errors ? error.errors.map(e => e.msg).join('\n') : 'Something Weird Happened ! Please try again.';
+                alert(errorMessages);
             });
         }
     });

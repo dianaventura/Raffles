@@ -4,6 +4,8 @@ const User = require('../models/User');
 const Entry = require('../models/Entry');
 const Prize = require('../models/Prize');
 
+const { validationResult } = require('express-validator');
+
 
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
@@ -12,6 +14,14 @@ const mongoose = require('mongoose');
 
 //controller for registering usrs
 exports.signup = async (req, res) => {
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+
+    return res.status(400).json({ errors: errors.array() });
+
+  }
+
   try {
     const { username, password, email } = req.body;
 
@@ -24,7 +34,10 @@ exports.signup = async (req, res) => {
     }
 
     // else ave new user
-    const user = new User({ username, password, email });
+
+    const hashedup = await bcrypt.hash(password, 8);
+
+    const user = new User({ username, hashedup, email });
 
     const userSaved = await user.save();
 
@@ -53,6 +66,13 @@ exports.signup = async (req, res) => {
 //loggin in
 
 exports.login = async (req, res) => {
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+
+    return res.status(400).json({ errors: errors.array() });
+
+  }
 
   try {
 

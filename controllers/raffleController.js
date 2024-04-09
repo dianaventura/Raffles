@@ -6,6 +6,9 @@ const Guest = require('../models/Guest');
 const Entry = require('../models/Entry');
 const Prize = require('../models/Prize');
 
+
+const { validationResult } = require('express-validator');
+
 let winnersQueue =[];
 
 exports.getRaffles = async(req,res) => {
@@ -42,6 +45,13 @@ exports.getRaffles = async(req,res) => {
 }
 
 exports.createRaffle = async(req,res) =>{
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+
+    return res.status(400).json({ errors: errors.array() });
+
+  }
 
     try{
   
@@ -143,26 +153,27 @@ exports.createRaffle = async(req,res) =>{
 
             let winnerName = 'unKnown';
 
+            let prizeData = {raffleId:raffle._id, claimed:false};
+
             if(winningEntry.userId){
               const user = await User.findById(winningEntry.userId);
               //if display is unknown user something is wrong
               winnerName = user ? user.username: 'Unknown User';
 
+              prizeData.userId = winningEntry.userId;
+
             }else if (winningEntry.guestToken){
               const guest = await Guest.findOne({token:winningEntry.guestToken});
               const random = Math.floor(Math.random() * 10000);
-              winnerName= 'Guest Number ${random}. You will be contacted with the details you used to enter!';
+              winnerName= `Guest Number ${random}. You will be contacted with the details you used to enter!`;
+              prizeData.guestToken = winningEntry.guestToken;
             };
           
            
             // update the raffle with the winner's entry ID
             await Raffle.findByIdAndUpdate(raffle._id, { winnerId: winningEntry._id});
 
-            const prize = new Prize({
-              userId: winningEntry.userId || winningEntry.guestToken,
-              raffleId: raffle._id,
-              claimed: false
-            })
+            const prize = new Prize(prizeData)
             console.log(prize);
             await prize.save();
 

@@ -1,3 +1,7 @@
+
+
+
+
 document.addEventListener('DOMContentLoaded', function () {
     const createRaffleForm = document.getElementById('raffle-form');
   
@@ -30,8 +34,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
         body: JSON.stringify(raffleData) 
       })
-      .then(response => response.json())
+      .then(response => {
 
+        if (response.ok) {
+          return response.json();
+
+        } else {
+          //handle errors here
+          return response.json().then(err => {
+            throw err;
+          });
+        }
+
+      })
       .then(data => {
         console.log('Success:', data);
 
@@ -40,7 +55,9 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       .catch((error) => {
         console.error('Error:', error);
-        alert(' error creating the raffle.');
+        
+        const errorMessages = error.errors ? error.errors.map(e => e.msg).join('\n') : 'Something Weird Happened ! Please try again.';
+        alert(errorMessages);
 
       });
 

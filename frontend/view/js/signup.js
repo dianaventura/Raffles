@@ -41,23 +41,33 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       .then(response => {
         
-        if (!response.ok) {
-       
-            return response.json().then(data => Promise.reject(data.message));
-        }
+        if (response.ok) {
+            return response.json();
 
-        return response.json();
+          } else {
+            //handle errors here
+            return response.json().then(err => {
+              throw err;
+            });
+          }
 
       })
       .then(data => {
+
           console.log('Success:', data);
           alert('OMGG !!! gURL. You have signed up tysm');
           window.location.href = 'index.html';
+
       })
       .catch((error) => {
           console.error('Error:', error);
+
+          //if there are any errors in the response tell the user
+
+          const errorMessages = error.errors ? error.errors.map(e => e.msg).join('\n') : 'Something Weird Happened ! Please try again.';
+            alert(errorMessages);
          
-          alert(error);
+
 
       });
 

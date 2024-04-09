@@ -126,3 +126,22 @@ button:hover{
     gap: 20px;
     justify-content: center;
 }
+
+#hello-user {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#user-display {
+
+    margin-right: 10px;
+}
+
+#nav button, #nav a #nav div{
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    font-weight: bold;
+}

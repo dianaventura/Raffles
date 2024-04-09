@@ -9,7 +9,9 @@ const { MongoClient } = require("mongodb");
 const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const expressValidator = require('express-validator');
 const session = require('express-session');
+
 //routes
 const guestRoutes = require('./routes/guestRoutes');
 const raffleRoutes = require('./routes/raffleRoutes');
