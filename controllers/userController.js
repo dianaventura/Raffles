@@ -32,14 +32,14 @@ exports.signup = async (req, res) => {
 
       errors.push('User Already Exists');
 
-      return res.status(400).json({ errors });
+    return res.status(400).json({ errors });
     }
 
     // else ave new user
 
-    const hashedup = await bcrypt.hash(password, 8);
+    password = await bcrypt.hash(password, 8);
 
-    const user = new User({ username, password: hashedup, email });
+    const user = new User({ username, password , email });
 
     const userSaved = await user.save();
 
