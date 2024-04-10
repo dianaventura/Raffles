@@ -74,7 +74,7 @@ function alertWinner(){
     if (unclaimedPrizes && unclaimedPrizes.length > 0) {
         jsConfetti.addConfetti();
         unclaimedPrizes.forEach(prize => {
-            const message = `YO! While you were gone, you were the winner of:\n${prize.raffleTitle}: ${prize.prize}`;
+            const message = `YO! While you were gone, you were the winner of:\n${prize.raffleTitle}: ${prize.prize}\n You will receive instructions on how to claim via email`;
             alert(message);
         });
         //clear after alert
@@ -384,7 +384,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         .catch(error => console.error('Error logging out:', error)); // Log fetch error
     });
 
-      //only on log in 
+      
     
   
 
