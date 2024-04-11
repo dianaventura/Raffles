@@ -139,7 +139,6 @@ exports.createRaffle = async(req,res) =>{
             if (entries.length === 0) {
               console.log('No entries for this raffle.');
               //so it dosnt try keep finding a winner 
-              await Raffle.findByIdAndUpdate(raffle._id, { drawn: true });
             
               return null;
             }
