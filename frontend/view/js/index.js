@@ -72,7 +72,7 @@ function alertWinner(){
     const unclaimedPrizes = JSON.parse(localStorage.getItem('unclaimedPrizes'));
 
     if (unclaimedPrizes && unclaimedPrizes.length > 0) {
-        jsConfetti.addConfetti();
+    
         unclaimedPrizes.forEach(prize => {
             const message = `YO! While you were gone, you were the winner of:\n${prize.raffleTitle}: ${prize.prize}\n You will receive instructions on how to claim via email`;
             alert(message);
@@ -276,16 +276,14 @@ function fetchAndDisplayWinners() {
         if (winners.length > 0) {
             winners.forEach(winner => {
 
-                if(winner.WinnerName == null){
-                    alert(`Aw Man! No one entered the ${winner.raffleTitle}- no winners found!`)
-                }else{
+                
                 
                 console.log(`winner Announcement!!!: The winner of ${winner.raffleTitle} is ${winner.winnerName}! Prize: ${winner.prize}`);
                
                 alert(`winner Announcement!!: The winner of ${winner.raffleTitle} is ${winner.winnerName}! Prize: ${winner.prize}`);
                 //this refreshes after a raffle has been drawn to only display active raffles.
                 window.location.reload(); 
-                }
+                
             });
         }
     })
