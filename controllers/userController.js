@@ -23,6 +23,7 @@ exports.signup = async (req, res) => {
   }
 
   try {
+
     let { username, password, email } = req.body;
 
 
@@ -36,6 +37,8 @@ exports.signup = async (req, res) => {
     // else ave new user
 
     password = await bcrypt.hash(password, 8);
+
+    console.log(password);
 
     const user = new User({ username, password , email });
 
@@ -66,6 +69,7 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
 
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
 
     return res.status(400).json({ errors: errors.array() });
@@ -75,6 +79,8 @@ exports.login = async (req, res) => {
   try {
 
     const { username, password } = req.body;
+
+    console.log(password);
 
     const user = await User.findOne({ username });
     if (!user) {

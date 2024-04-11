@@ -119,6 +119,7 @@ exports.createRaffle = async(req,res) =>{
         await Raffle.findByIdAndUpdate(raffle._id, { drawn: true });
 
         await Guest.deleteMany({ raffleId: raffle._id });
+
     }
 
 
@@ -156,6 +157,7 @@ exports.createRaffle = async(req,res) =>{
             winningEntry.winner = true;
     
             await winningEntry.save();
+
             //get winner name
 
             let winnerName = 'unKnown';
