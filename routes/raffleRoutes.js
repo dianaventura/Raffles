@@ -25,6 +25,6 @@ router.post('/create-raffle',
 
 router.get('/get-winners',raffleController.getWinners);
 
-//router.get('/get-unclaimed-prizes', raffleController.getUnclaimedPrizes);
+
 
 module.exports = router;

@@ -5,7 +5,6 @@ const path = require('path');
 
 const express = require('express');
 const app = express();
-const { MongoClient } = require("mongodb");
 const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -61,7 +60,7 @@ app.use(session({
   secret: secret,
   resave: false,
   saveUninitialized: false,
-    
+  //for testing purposes cookies set to a day 
   cookie: {
     maxAge: 24 *60*60*1000,
     secure: false, 
@@ -94,5 +93,5 @@ app.use(userRoutes);
 // Handling 404 errors
 app.use((req, res, next) => {
   console.log('Requested URL:', req.url);
-  res.status(404).send("test A");
+  res.status(404).send("Jinkies. I don't know what you were looking for! ");
 });

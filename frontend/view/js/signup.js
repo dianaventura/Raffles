@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   signupForm.addEventListener('submit', function (event) {
 
-      event.preventDefault(); // Prevent the default form submit action
+      event.preventDefault();
 
       
       const formData = new FormData(signupForm);
@@ -55,7 +55,8 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(data => {
 
           console.log('Success:', data);
-          alert('OMGG !!! gURL. You have signed up tysm');
+          alert('Hey ! Thanks so much for signing up! ');
+          
           window.location.href = 'index.html';
 
       })

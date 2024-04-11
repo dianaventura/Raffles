@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             console.log('Success:', data);
 
+            
 
             localStorage.setItem('userId',data.user);
             if (data.prizes && data.prizes.length > 0) {

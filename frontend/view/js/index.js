@@ -88,21 +88,26 @@ function alertWinner(){
 
 
 function displayRaffles(data, session) {
-    //console.log(data); // log the raffles array
+ 
     console.log('User is logged in:', session.loggedIn);
     console.log('data being sent:', data);
 
     let enteredRaffles = [];
     let raffles;
 
+   
+
     if(session.loggedIn) {
         
         raffles = data.activeRaffles;
+
+         //if we recieve a list of raffles the user has entered
         
         if (data.raffleIds && Array.isArray(data.raffleIds)) {
             
             enteredRaffles = data.raffleIds;
         } else {
+
            
             enteredRaffles = [];
         }
@@ -270,11 +275,17 @@ function fetchAndDisplayWinners() {
     .then(winners => {
         if (winners.length > 0) {
             winners.forEach(winner => {
+
+                if(winner.WinnerName == null){
+                    alert(`Aw Man! No one entered the ${winner.raffleTitle}- no winners found!`)
+                }else{
                 
                 console.log(`winner Announcement!!!: The winner of ${winner.raffleTitle} is ${winner.winnerName}! Prize: ${winner.prize}`);
                
                 alert(`winner Announcement!!: The winner of ${winner.raffleTitle} is ${winner.winnerName}! Prize: ${winner.prize}`);
+                //this refreshes after a raffle has been drawn to only display active raffles.
                 window.location.reload(); 
+                }
             });
         }
     })
@@ -284,8 +295,10 @@ function fetchAndDisplayWinners() {
 document.addEventListener('DOMContentLoaded', (event) => {
 
     fetchRaffles(); //fetches and displayes raffles
-  
+    
 
+    //the cron is called every minute this provides live winner announcements 
+    //we're basically asking the server - hey any new winners?
     setInterval(fetchAndDisplayWinners, 60000); //check for winnas
 
    
@@ -304,9 +317,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const email = formData.get('guest-email');
             const raffleId = formData.get('raffleId');
 
-            //console.log(name);
-            //console.log(email);
-            // console.log(raffleId)
             
             var guestData = {
                 name: name,
@@ -314,8 +324,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 raffleId: raffleId
             };
 
-            //console.log(guestData)
-        
+                  
             // post request to server side 
             fetch('/enter-as-guest', {
                 method: 'POST',
@@ -340,14 +349,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
             .then(data => {
                 console.log('Success:', data);
 
-                alert('OMGG !!! gURL. You have been entered into the raffle!');
+                alert('OMGG !!! You have been entered into the raffle!');
                 window.location.reload();
                
             })
             .catch((error) => {
                 console.error('Error:', error);
 
-                //alert('girl. im so sorry an error occurred. please try again!');
+         
 
                 
                 const errorMessages = error.errors ? error.errors.map(e => e.msg).join('\n') : 'Something Weird Happened ! Please try again.';
@@ -372,16 +381,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             if (response.ok) {
 
+                //needs to reset otherwise it will try alert user every login
+
                 localStorage.removeItem('userId');
                 localStorage.removeItem('unclaimedPrizes');
 
                 window.location.href = 'index.html'; 
-                console.log('YOU HAVE BEEN LOGGED OUT ?')
+               // console.log('YOU HAVE BEEN LOGGED OUT ')
             } else {
                 console.error('Error logging out:', response.status); 
             }
         })
-        .catch(error => console.error('Error logging out:', error)); // Log fetch error
+        .catch(error => console.error('Error logging out:', error)); 
     });
 
       

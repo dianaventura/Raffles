@@ -7,7 +7,9 @@ document.addEventListener('DOMContentLoaded', function () {
   
     createRaffleForm.addEventListener('submit', function (event) {
 
-      event.preventDefault(); // Prevent the default form submit action
+      event.preventDefault(); 
+
+      //users are not allowed to submit images for security reasons
       
       const formData = new FormData(createRaffleForm);
       const title = formData.get('title');

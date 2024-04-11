@@ -89,6 +89,9 @@ exports.createRaffle = async(req,res) =>{
 
     //datetime fix
 
+    //this is fix is purely optional the db server is an hour behind my local time
+    
+
     const now = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60000);
 
     console.log('this is the date the server thinks it is right now', now);
@@ -134,6 +137,8 @@ exports.createRaffle = async(req,res) =>{
 
             if (entries.length === 0) {
               console.log('No entries for this raffle.');
+              //so it dosnt try keep finding a winner 
+              await Raffle.findByIdAndUpdate(raffle._id, { drawn: true });
             
               return null;
             }
@@ -165,6 +170,8 @@ exports.createRaffle = async(req,res) =>{
               prizeData.userId = winningEntry.userId;
 
             }else if (winningEntry.guestToken){
+              //guest tokens are not displayed but implemented if 
+              //guest has won they will be contact via details 
               const guest = await Guest.findOne({token:winningEntry.guestToken});
               const random = Math.floor(Math.random() * 10000);
               winnerName= `GuestTicket:${random}`;
