@@ -91,6 +91,8 @@ exports.createRaffle = async(req,res) =>{
 
     const now = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60000);
 
+    console.log('this is the date the server thinks it is right now', now);
+
     
     const expiredRaffles = await Raffle.find({ drawDate: { $lte: now },drawn: false});
  

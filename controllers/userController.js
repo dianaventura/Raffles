@@ -23,7 +23,7 @@ exports.signup = async (req, res) => {
   }
 
   try {
-    const { username, password, email } = req.body;
+    let { username, password, email } = req.body;
 
 
     const existingUser = await User.findOne({ username });
