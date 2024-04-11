@@ -15,7 +15,7 @@
 
 ## Best Practices 📚
 
-- ✅ **GitHub Best Practices** - 100 commits over 2 months, each commit has a purpose and commit messages are detailed. I also followed a MVC Pattern. Some stuff I didn't get to mention in the video: automated draws are done using cron jobs and sessions are managed this is how the user display can tell which user is logged in! 
+- ✅ **GitHub Best Practices** - over 100 commits over 2 months, each commit has a purpose and commit messages are detailed. I also followed a MVC Pattern. Some stuff I didn't get to mention in the video: automated draws are done using cron jobs and sessions are managed this is how the user display can tell which user is logged in! 
 - ✅ **Server for Set Up** - Script can be found at the root of the project! 
 
 
